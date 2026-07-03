@@ -2,7 +2,7 @@ package main
 
 import (
 	"github/morazss/rest-api/internal/user"
-	"log"
+	"github/morazss/rest-api/pkg/logging"
 	"net"
 	"net/http"
 	"time"
@@ -11,22 +11,24 @@ import (
 )
 
 func main() {
-	log.Println("create router")
+	logger := logging.GetLogger()
+	logger.Info("create router")
 	router := httprouter.New()
 
-	log.Println("register user routes")
-	handler := user.NewHandler()
+	logger.Info("register user routes")
+	handler := user.NewHandler(logger)
 	handler.Register(router)
 
 	start(router)
 }
 
 func start(router *httprouter.Router) {
-	log.Println("start application")
+	logger := logging.GetLogger()
+	logger.Info("start application")
 
 	listener, err := net.Listen("tcp", ":8080")
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatalln(err)
 	}
 
 	server := &http.Server{
@@ -34,6 +36,6 @@ func start(router *httprouter.Router) {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	log.Println("server is running on port 8080")
-	log.Fatal(server.Serve(listener))
+	logger.Info("server is running on port 8080")
+	logger.Fatalln(server.Serve(listener))
 }
