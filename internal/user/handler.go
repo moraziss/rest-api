@@ -27,8 +27,8 @@ func NewHandler(logger logging.Logger) handlers.Handler {
 
 func (h *handler) Register(router *httprouter.Router) {
 	router.GET(usersURL, h.GetList)
-	router.POST(usersURL, h.GetUserByUUID)
-	router.GET(userURL, h.CreateUser)
+	router.POST(usersURL, h.CreateUser)
+	router.GET(userURL, h.GetUserByUUID)
 	router.PUT(userURL, h.UpdateUser)
 	router.PATCH(userURL, h.PartialUpdateUser)
 	router.DELETE(userURL, h.DeleteUser)
