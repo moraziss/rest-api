@@ -25,3 +25,4 @@ test-api.http
 
 # OS
 .DS_Store
+logs/
